@@ -1,18 +1,26 @@
 # View a kinesis stream
 import boto3
 import time
+import os
+import sys
 
-# TODO env var
-my_stream_name = 'your-stream-name'
+ENDPOINT_URL = os.environ.get('ENDPOINT_URL')
+STREAM_NAME = os.environ.get('STREAM_NAME')
 
-kinesis_client = boto3.client('kinesis')
+if not STREAM_NAME:
+    print("You must set STREAM_NAME env var")
+    sys.exit(1)
 
-response = kinesis_client.describe_stream(StreamName=my_stream_name)
+print("Stream", STREAM_NAME, "URL", ENDPOINT_URL)
+
+kinesis_client = boto3.client('kinesis', endpoint_url=ENDPOINT_URL)
+
+response = kinesis_client.describe_stream(StreamName=STREAM_NAME)
 print(response)
 
 my_shard_id = response['StreamDescription']['Shards'][0]['ShardId']
 
-shard_iterator = kinesis_client.get_shard_iterator(StreamName=my_stream_name,
+shard_iterator = kinesis_client.get_shard_iterator(StreamName=STREAM_NAME,
                                                       ShardId=my_shard_id,
                                                       ShardIteratorType='LATEST')
 

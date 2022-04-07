@@ -1,12 +1,9 @@
-# view a kinesis stream
+# View a kinesis stream
 import boto3
 import time
 
 # TODO env var
-my_stream_name = 'justin-poc-stream'
-# my_stream_name = 'com.heyes-jones.stream-cdp_stream_in'
-# dev = boto3.session.Session(profile_name='dev-backend')
-# print(dev)
+my_stream_name = 'your-stream-name'
 
 kinesis_client = boto3.client('kinesis')
 
